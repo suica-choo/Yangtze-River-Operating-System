@@ -46,6 +46,7 @@ double testLoopOverhead() {
     uint64_t end_tsc = rdtsc();
     double total_loop_times = end_tsc - start_tsc;
     double per_loop_overhead = total_loop_times / NUM_OF_LOOPS;
+    cout << "loop overhead: " << per_loop_overhead << endl;
     return per_loop_overhead;
 }
 
