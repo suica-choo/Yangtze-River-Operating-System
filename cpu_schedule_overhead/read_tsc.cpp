@@ -15,6 +15,7 @@ static inline uint64_t rdtsc()
 }
 
 double testReadTSC();
+double testLoopOverhead();
 
 int main() {
     double read_tsc_sum = 0;
@@ -24,17 +25,28 @@ int main() {
     }
     cout << "==========================================" << endl;
     cout << "average test read tsc time: " << read_tsc_sum / test_times << endl;
+    cout << "===========================================" << endl;
+    double loop_time = 0;
+    for (int i = 0; i < test_times; i++) {
+        loop_time += testLoopOverhead();
+    }
+    cout << "===========================================" << endl;
+    cout << "average test loop overhead: " << loop_time / test_times << endl;
+    cout << "===========================================" << endl;
+
 }
 
 
-uint64_t testLoopOverhead() {
+double testLoopOverhead() {
     uint64_t start_tsc = rdtsc();
     for (int i = 0; i < NUM_OF_LOOPS; i++) {
 
     }
 
     uint64_t end_tsc = rdtsc();
-    return end_tsc - start_tsc;
+    double total_loop_times = end_tsc - start_tsc;
+    double per_loop_overhead = total_loop_times / NUM_OF_LOOPS;
+    return per_loop_overhead;
 }
 
 double testReadTSC() {
