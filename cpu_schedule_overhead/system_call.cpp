@@ -14,6 +14,7 @@ using namespace std;
 // TODO: hzw, this code can't work
 // measure system call getpid() overhead
 // each time fork a new process to get its pid ( to avoid the cache of pid )
+// what's the proper estimate overhead for the system call ?
 
 void testGetPid();
 void testSysCall();
