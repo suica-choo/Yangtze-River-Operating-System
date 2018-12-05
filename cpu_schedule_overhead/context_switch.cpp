@@ -25,7 +25,7 @@ int main() {
 void testProcessContextSwitch() {
     uint64_t start_tsc;
     uint64_t end_tsc;
-    uint64_t sum;
+    uint64_t sum = 0;
     pid_t pid;
     int pfd[2];
 
@@ -61,7 +61,7 @@ void testProcessContextSwitch() {
 void testThreadContextSwitch() {
     uint64_t start_tsc;
     uint64_t end_tsc;
-    uint64_t sum;
+    uint64_t sum = 0;
     pthread_t child;
 
     if (pipe(tpfd) == -1) { perror("pipe"); exit(1); }

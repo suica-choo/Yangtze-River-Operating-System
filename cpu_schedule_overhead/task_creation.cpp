@@ -25,7 +25,7 @@ int main() {
 void testProcessCreation() {
     uint64_t start_tsc;
     uint64_t end_tsc;
-    uint64_t sum;
+    uint64_t sum = 0;
     pid_t pid;
 
     for (int i = 0; i < 100000; i++) {
@@ -48,7 +48,7 @@ void testProcessCreation() {
 void testThreadCreation() {
     uint64_t start_tsc;
     uint64_t end_tsc;
-    uint64_t sum;
+    uint64_t sum = 0;
     pthread_t child;
 
     for (int i = 0; i < 100000; i++) {
