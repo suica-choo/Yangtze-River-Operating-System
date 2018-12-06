@@ -10,8 +10,15 @@
 using namespace std;
 
 void rtt(int portno, char* host_name);
-int main() {
-    rtt(10086, "127.0.0.1");
+int main(int argc, char *argv[]) {
+    if (argc < 3) {
+        fprintf(stderr,"ERROR, no port provided\n");
+        cout << "usage: ./executable server_address portno" << endl;
+        exit(1);
+    }
+    int portno = atoi(argv[2]);
+    char* host_name = argv[1];
+    rtt(portno, host_name);
 }
 
 void rtt(int portno, char* host_name) {
