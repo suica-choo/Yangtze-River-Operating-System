@@ -6,7 +6,7 @@
 #include <mach/mach_time.h>
 
 #define COUNT 1e4
-#define TIMES 1e2
+#define TIMES 20
 #define NANO_TRANSFER 1e9
 
 //declare variables
@@ -25,9 +25,9 @@ void fixedStride(int strideIndex, FILE *file, int times);
 int main(int argc, const char * argv[])
 {
 	FILE *file;
-	file = fopen("memory_access_result", "w");
+	file = fopen("memory_access_result.txt", "w");
     srand((unsigned int)time(0));
-	fixedStride(2, file, TIMES);
+	fixedStride(5, file, TIMES);
     fclose(file);
     printf("Finish the benchmark for memory access time\n");
     return 0;
