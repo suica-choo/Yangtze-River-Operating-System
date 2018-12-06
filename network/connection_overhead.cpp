@@ -19,7 +19,7 @@
     Step 3: IIRC, just sends a 'closing now' packet, w/ no wait for destination ack, so no latency involved.
  */
 
-#define NUM_RTT_TIMES 10000
+#define NUM_RTT_TIMES 100
 using namespace std;
 
 void connection_test(int portno, char* host_name);

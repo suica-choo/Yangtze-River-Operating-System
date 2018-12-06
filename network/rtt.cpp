@@ -6,7 +6,7 @@
 #include "client.cpp"
 #include <iostream>
 
-#define NUM_RTT_TIMES 100000
+#define NUM_RTT_TIMES 100
 using namespace std;
 
 void rtt(int portno, char* host_name);
