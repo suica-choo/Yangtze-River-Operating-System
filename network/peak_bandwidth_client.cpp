@@ -14,19 +14,21 @@
 #include <netinet/in.h>
 
 using namespace std;
-#define BUFFER_SIZE 1024*1024*2 // 2MB
+#define BUFFER_SIZE 1024*1024*2 // 
 
 int main(int argc, char *argv[]) {
     if (argc < 3) {
         fprintf(stderr,"ERROR, no port provided\n");
         cout << "usage: ./executable server_address portno" << endl;
-        exit(1);
+        exit(1);    
     }
     int portno = atoi(argv[2]);
     char* host_name = argv[1];
     int sock_fd = buildConnection(portno, host_name);
     char* buffer = new char[BUFFER_SIZE];
+    char* recv_buffer = new char[BUFFER_SIZE];
     fill(buffer, buffer+BUFFER_SIZE, 'a');
+    fill(recv_buffer, recv_buffer+BUFFER_SIZE, 'a');
     int n;
     uint64_t start_tsc;
     uint64_t end_tsc;
@@ -35,6 +37,7 @@ int main(int argc, char *argv[]) {
 
     for (int i = 0; i < 1024; i++) {
         // 2MB * 1024 = 2GB
+        // cout << i << endl;
         start_tsc = rdtsc();
         n = write(sock_fd, buffer, BUFFER_SIZE);
         end_tsc = rdtsc();
@@ -43,7 +46,15 @@ int main(int argc, char *argv[]) {
             error("ERROR writing socket");
         }
         start_tsc = rdtsc();
-        n = read(sock_fd, buffer, BUFFER_SIZE);
+
+        int total = 0;
+        while ( (n = read(sock_fd, recv_buffer, BUFFER_SIZE)) > 0) {
+            total += n;
+            if (total == BUFFER_SIZE) {
+                break;
+            }
+        }
+        
         end_tsc = rdtsc();
         recv_time += end_tsc - start_tsc;
         if (n < 0) {

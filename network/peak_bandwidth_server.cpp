@@ -27,20 +27,49 @@ void *ThreadMain(void *threadArgs) {
     pthread_detach(pthread_self());
     char* buffer = new char[BUFFER_SIZE];
     fill(buffer, buffer+BUFFER_SIZE, 'a');
+    char* recv_buffer = new char[BUFFER_SIZE];
     int clntSock = ((struct ThreadArgs*) threadArgs) -> clntSock;
     int read_size;
-    while ((read_size = recv(clntSock, buffer, BUFFER_SIZE, 0)) > 0) {
-        int n = write(clntSock, buffer, BUFFER_SIZE);
-        if (n < 0) {
-            error("error writing");
+    int count = 0;
+    while (true) {
+        int total = 0;
+        while ((read_size = recv(clntSock, recv_buffer, BUFFER_SIZE, 0)) > 0) {
+            // cout << buffer << endl;
+            // cout << "read " << read_size << endl;
+            total += read_size;
+            if (total == BUFFER_SIZE) {
+                break;
+            }
+            cout << read_size << endl;
         }
+        if (read_size <= 0) {
+            delete[] recv_buffer;
+            delete[] buffer;
+            return NULL;
+        }
+
+        int n = write(clntSock, buffer, BUFFER_SIZE);
+            // cout << "write done" << endl;
+        if (n < 0) {
+            delete[] recv_buffer;
+            delete[] buffer;
+            return NULL;
+            // error("error writing");
+        }
+
+
     }
     if (read_size == 0) {
         close(clntSock);
     } else if (read_size == -1) {
         close(clntSock);
+        delete[] recv_buffer;
+        delete[] buffer;
         error("recv failed");
     }
+    delete[] recv_buffer;
+    delete[] buffer;
+    return NULL;
 }
 
 int main(int argc, char *argv[]) {
